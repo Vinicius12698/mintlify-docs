@@ -5,18 +5,6 @@ description: "Adiciona ou remove créditos de uma revenda"
 auth: "none"
 ---
 
-<RequestExample>
-
-```json Exemplo de Body
-{
-  "credits": "20",
-  "reason": "213123",
-  "sale": 100.02
-}
-```
-
-</RequestExample>
-
 ## Endpoint
 
 <CodeGroup>
@@ -30,7 +18,7 @@ Authorization: Bearer <token>
 
 ## Descrição
 
-Adiciona ou remove créditos de uma revenda específica.
+Adiciona ou remove créditos de uma revenda específica. Use valores positivos para adicionar créditos e valores negativos para remover.
 
 ## Parâmetros
 
@@ -45,15 +33,15 @@ Adiciona ou remove créditos de uma revenda específica.
 ## Parâmetros do Body
 
 <ParamField body="credits" type="string" required>
-  Quantidade de créditos (Mínimo 10 créditos)
+  Quantidade de créditos a adicionar ou remover (Mínimo 10 créditos por operação)
 </ParamField>
 
 <ParamField body="reason" type="string">
-  Motivo da alteração
+  Motivo da alteração de créditos
 </ParamField>
 
 <ParamField body="sale" type="number">
-  Valor de venda
+  Valor de venda associado
 </ParamField>
 
 ## Resposta
@@ -72,13 +60,13 @@ Adiciona ou remove créditos de uma revenda específica.
       ID da revenda
     </ResponseField>
     <ResponseField name="previous_credits" type="number">
-      Créditos anteriores
+      Quantidade de créditos antes da operação
     </ResponseField>
     <ResponseField name="new_credits" type="number">
-      Novos créditos
+      Quantidade de créditos após a operação
     </ResponseField>
     <ResponseField name="credits_added" type="number">
-      Créditos adicionados/removidos
+      Quantidade de créditos adicionados/removidos
     </ResponseField>
     <ResponseField name="reason" type="string">
       Motivo da alteração
@@ -86,18 +74,96 @@ Adiciona ou remove créditos de uma revenda específica.
   </Expandable>
 </ResponseField>
 
+## Exemplo de Requisição
+
+<CodeGroup>
+
+```json Adicionar Créditos
+{
+  "credits": "20",
+  "reason": "Recarga manual",
+  "sale": 100.02
+}
+```
+
+```json Remover Créditos
+{
+  "credits": "-15",
+  "reason": "Ajuste de saldo",
+  "sale": 0
+}
+```
+
+```bash cURL (Adicionar)
+curl -X PATCH "https://api.officehub.top/resale/add-credits/15" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{
+    "credits": "20",
+    "reason": "Recarga manual",
+    "sale": 100.02
+  }'
+```
+
+```bash cURL (Remover)
+curl -X PATCH "https://api.officehub.top/resale/add-credits/15" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{
+    "credits": "-15",
+    "reason": "Ajuste de saldo",
+    "sale": 0
+  }'
+```
+
+</CodeGroup>
+
 ## Exemplo de Resposta
 
-**Sucesso (200 OK):**
+**Sucesso (200 OK) - Adicionando Créditos:**
 ```json
 {
+  "success": true,
   "message": "Créditos atualizados com sucesso",
   "data": {
     "id": 15,
     "previous_credits": 100,
-    "new_credits": 150,
-    "credits_added": 50,
+    "new_credits": 120,
+    "credits_added": 20,
     "reason": "Recarga manual"
   }
+}
+```
+
+**Sucesso (200 OK) - Removendo Créditos:**
+```json
+{
+  "success": true,
+  "message": "Créditos atualizados com sucesso",
+  "data": {
+    "id": 15,
+    "previous_credits": 120,
+    "new_credits": 105,
+    "credits_added": -15,
+    "reason": "Ajuste de saldo"
+  }
+}
+```
+
+**Erro (404 Not Found):**
+```json
+{
+  "success": false,
+  "message": "Revenda não encontrada",
+  "error": "RESALE_NOT_FOUND"
+}
+```
+
+**Erro (400 Bad Request):**
+```json
+{
+  "success": false,
+  "message": "Quantidade mínima de créditos é 10",
+  "error": "INVALID_CREDITS_AMOUNT"
 }
 ```

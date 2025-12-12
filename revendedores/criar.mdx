@@ -1,27 +1,9 @@
 ---
 title: "Criar Revenda"
 api: "POST https://api.officehub.top/resale"
-description: "Cria uma nova revenda"
+description: "Cria uma nova revenda no sistema"
 auth: "none"
 ---
-
-<RequestExample>
-
-```json Exemplo de Body
-{
-  "credits": 10,
-  "email": "teste@gmail.com",
-  "master": false,
-  "notes": "teste",
-  "pass": "1111asawe",
-  "pattern": 0,
-  "sale": 10,
-  "user": "11111111",
-  "whatsapp": 5511111111111
-}
-```
-
-</RequestExample>
 
 ## Endpoint
 
@@ -36,7 +18,7 @@ Authorization: Bearer <token>
 
 ## Descrição
 
-Cria uma nova revenda no sistema com os dados fornecidos.
+Cria uma nova revenda no sistema com os dados fornecidos. A revenda criada terá acesso ao painel para gerenciar seus próprios clientes.
 
 ## Parâmetros
 
@@ -52,27 +34,27 @@ Cria uma nova revenda no sistema com os dados fornecidos.
   Senha da revenda
 </ParamField>
 
-<ParamField body="notes" type="string">
-  Notas sobre a revenda
-</ParamField>
-
-<ParamField body="whatsapp" type="number">
-  WhatsApp da revenda (apenas números)
+<ParamField body="credits" type="number" required>
+  Créditos iniciais (Mínimo 10 créditos)
 </ParamField>
 
 <ParamField body="email" type="string">
   E-mail da revenda
 </ParamField>
 
-<ParamField body="master" type="boolean">
-  Se é master (true/false)
+<ParamField body="whatsapp" type="number">
+  WhatsApp da revenda (apenas números, sem formatação)
 </ParamField>
 
-<ParamField body="credits" type="number">
-  Créditos iniciais (Mínimo  10 créditos)
+<ParamField body="notes" type="string">
+  Notas e observações sobre a revenda
 </ParamField>
 
-<ParamField body="pattern" type="integer">
+<ParamField body="master" type="boolean" default="false">
+  Define se a revenda é master (true/false)
+</ParamField>
+
+<ParamField body="pattern" type="integer" default="0">
   Padrão do sistema
 </ParamField>
 
@@ -95,8 +77,8 @@ Cria uma nova revenda no sistema com os dados fornecidos.
     <ResponseField name="id" type="integer">
       ID da revenda criada
     </ResponseField>
-    <ResponseField name="name" type="string">
-      Nome da revenda
+    <ResponseField name="username" type="string">
+      Nome de usuário da revenda
     </ResponseField>
     <ResponseField name="email" type="string">
       Email da revenda
@@ -113,19 +95,79 @@ Cria uma nova revenda no sistema com os dados fornecidos.
   </Expandable>
 </ResponseField>
 
+## Exemplo de Requisição
+
+<CodeGroup>
+
+```json TryIt
+{
+  "user": "revenda_teste",
+  "pass": "senha123",
+  "credits": 10,
+  "email": "teste@gmail.com",
+  "whatsapp": 5511999999999,
+  "notes": "Revenda de teste",
+  "master": false,
+  "pattern": 0,
+  "sale": 10
+}
+```
+
+```bash cURL
+curl -X POST "https://api.officehub.top/resale" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{
+    "user": "revenda_teste",
+    "pass": "senha123",
+    "credits": 10,
+    "email": "teste@gmail.com",
+    "whatsapp": 5511999999999,
+    "notes": "Revenda de teste",
+    "master": false,
+    "pattern": 0,
+    "sale": 10
+  }'
+```
+
+</CodeGroup>
+
 ## Exemplo de Resposta
 
 **Sucesso (201 Created):**
 ```json
 {
+  "success": true,
   "message": "Revenda criada com sucesso",
   "data": {
     "id": 15,
-    "name": "Revenda Premium",
-    "email": "contato@revendapremium.com",
-    "credits": 100,
+    "username": "revenda_teste",
+    "email": "teste@gmail.com",
+    "credits": 10,
     "status": "active",
     "created_at": "2024-01-15T10:30:00Z"
+  }
+}
+```
+
+**Erro (400 Bad Request):**
+```json
+{
+  "success": false,
+  "message": "Créditos insuficientes. Mínimo 10 créditos",
+  "error": "INVALID_CREDITS"
+}
+```
+
+**Erro (422 Unprocessable Entity):**
+```json
+{
+  "success": false,
+  "message": "Dados de entrada inválidos",
+  "errors": {
+    "user": ["O campo user é obrigatório"],
+    "pass": ["O campo pass é obrigatório"],
+    "credits": ["O campo credits deve ser no mínimo 10"]
   }
 }
 ```
