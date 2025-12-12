@@ -1,6 +1,6 @@
 ---
 title: "Migrar Usuário P2P"
-api: "POST https://api-new.paineloffice.click/p2p/migrate/{id}"
+api: "POST https://api.officehub.top/p2p/migrate/{id}"
 description: "Migra um usuário P2P para um novo pacote"
 auth: "none"
 ---
@@ -78,7 +78,7 @@ Migra um usuário P2P existente para um novo pacote, alterando seu plano e tipo 
 ```
 
 ```bash cURL
-curl -X POST "https://api-new.paineloffice.click/p2p/migrate/507f1f77bcf86cd799439011" \
+curl -X POST "https://api.officehub.top/p2p/migrate/507f1f77bcf86cd799439011" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <token>" \
   -d '{
