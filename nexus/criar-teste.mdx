@@ -1,0 +1,115 @@
+---
+title: "Criar Teste Nexus"
+api: "POST https://api-new.paineloffice.click/nexus"
+description: "Cria um teste gratuito Nexus no sistema (trial: true)"
+auth: "none"
+---
+
+## Endpoint
+
+<CodeGroup>
+
+```bash Requisição
+POST /nexus
+Authorization: Bearer <token>
+```
+
+</CodeGroup>
+
+## Descrição
+
+Cria um novo teste gratuito Nexus no sistema. Esta é a mesma rota usada para criar usuários Nexus, mas com `trial: true` para testes gratuitos.
+
+## Parâmetros
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token para autenticação
+</ParamField>
+
+<ParamField body="notes" type="string">
+  Observações
+</ParamField>
+
+<ParamField body="trial" type="boolean" required default="true">
+  Sempre `true` para testes gratuitos (valor fixo)
+</ParamField>
+
+## Exemplo de Requisição
+
+<CodeGroup>
+
+```json TryIt
+{
+  "notes": "",
+  "trial": true
+}
+```
+
+```bash cURL
+curl -X POST "https://api-new.paineloffice.click/nexus" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{
+    "notes": "",
+    "trial": true
+  }'
+```
+
+</CodeGroup>
+
+## Resposta
+
+<ResponseField name="success" type="boolean">
+  Indica se a operação foi bem-sucedida
+</ResponseField>
+
+<ResponseField name="message" type="string">
+  Mensagem de confirmação
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="properties">
+    <ResponseField name="id" type="integer">
+      ID do teste Nexus criado
+    </ResponseField>
+    <ResponseField name="username" type="string">
+      Nome de usuário Nexus
+    </ResponseField>
+    <ResponseField name="email" type="string">
+      E-mail do usuário
+    </ResponseField>
+    <ResponseField name="status" type="string">
+      Status do teste
+    </ResponseField>
+    <ResponseField name="bandwidth_limit" type="integer">
+      Limite de banda
+    </ResponseField>
+    <ResponseField name="expires_at" type="string">
+      Data de expiração do teste
+    </ResponseField>
+    <ResponseField name="server_url" type="string">
+      URL do servidor Nexus
+    </ResponseField>
+    <ResponseField name="access_token" type="string">
+      Token de acesso
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## Exemplo de Resposta
+
+```json
+{
+  "message": "Teste Nexus criado com sucesso",
+  "data": {
+    "id": 3001,
+    "username": "teste_nexus_001",
+    "email": "teste@exemplo.com",
+    "status": "active",
+    "bandwidth_limit": 200,
+    "expires_at": "2024-02-15T10:30:00Z",
+    "server_url": "https://nexus.servidor.com",
+    "access_token": "nexus_token_xyz789abc123"
+  }
+}
+```

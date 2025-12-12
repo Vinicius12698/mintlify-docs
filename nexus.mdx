@@ -1,0 +1,182 @@
+---
+title: "Nexus"
+description: "Endpoints para gerenciamento de usuários Nexus"
+---
+
+## POST /nexus
+
+Cria um novo usuário ou teste Nexus no sistema.
+
+### Método e Rota
+```
+POST /nexus
+```
+
+### Parâmetros do Corpo da Requisição
+
+| Campo | Tipo | Obrigatório | Descrição |
+|-------|------|-------------|-----------|
+| `username` | string | Sim | Nome de usuário Nexus |
+| `password` | string | Sim | Senha do usuário |
+| `whatsapp` | number | Sim | WhatsApp do usuário (apenas números) |
+| `notes` | string | Não | Observações |
+| `email` | string | Sim | E-mail do usuário |
+| `months` | string | Sim | Duração em meses |
+| `sale_value` | number | Sim | Valor da venda |
+| `screens` | integer | Sim | Número de telas |
+| `trial` | boolean | Sim | Se é um teste gratuito |
+
+### Exemplo de Requisição
+
+```json TryIt
+{
+  "username": "76725fs8242",
+  "password": "910239957",
+  "whatsapp": 5511111111111,
+  "notes": "teste aqui",
+  "email": "teste@gmail.com",
+  "months": "0.5",
+  "sale_value": 0,
+  "screens": 1,
+  "trial": false
+}
+```
+
+```bash cURL
+curl -X POST "https://paineloffice.click/nexus" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer {token}" \
+  -d '{
+    "username": "76725fs8242",
+    "password": "910239957",
+    "whatsapp": 5511111111111,
+    "notes": "1111111111",
+    "email": "teste@gmail.com",
+    "months": "0.5",
+    "sale_value": 0,
+    "screens": 1,
+    "trial": false
+  }'
+```
+
+### Exemplo de Resposta
+
+**Sucesso (201 Created):**
+```json
+{
+  "message": "Usuário Nexus criado com sucesso",
+  "data": {
+    "id": 3001,
+    "username": "usuario_nexus_001",
+    "email": "usuario@exemplo.com",
+    "is_trial": false,
+    "status": "active",
+    "package_id": 7,
+    "resale_id": 15,
+    "bandwidth_limit": 200,
+    "expires_at": "2024-02-15T10:30:00Z",
+    "created_at": "2024-01-15T10:30:00Z",
+    "server_url": "https://nexus.servidor.com",
+    "access_token": "nexus_token_xyz789abc123"
+  }
+}
+```
+
+**Erro (422 Unprocessable Entity):**
+```json
+{
+  "success": false,
+  "message": "Dados de entrada inválidos",
+  "errors": {
+    "username": ["Nome de usuário já existe"],
+    "email": ["E-mail inválido"],
+    "package_id": ["Pacote não encontrado"]
+  }
+}
+```
+
+---
+
+---
+
+## POST /nexus/extend/{id}
+
+Estende a validade de um usuário Nexus existente.
+
+### Método e Rota
+```
+POST /nexus/extend/{id}
+```
+
+### Parâmetros da URL
+
+| Campo | Tipo | Obrigatório | Descrição |
+|-------|------|-------------|-----------|
+| `id` | integer | Sim | ID do usuário Nexus |
+
+### Parâmetros do Corpo da Requisição
+
+| Campo | Tipo | Obrigatório | Descrição |
+|-------|------|-------------|-----------|
+| `extend_days` | integer | Sim | Número de dias para estender |
+| `package_id` | integer | Não | Novo ID do pacote (opcional) |
+| `bandwidth_limit` | integer | Não | Novo limite de banda (opcional) |
+
+### Exemplo de Requisição
+
+```bash
+curl -X POST "https://paineloffice.click/nexus/extend/3001" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer {token}" \
+  -d '{
+    "extend_days": 30,
+    "package_id": 7,
+    "bandwidth_limit": 300
+  }'
+```
+
+### Exemplo de Resposta
+
+**Sucesso (200 OK):**
+```json
+{
+  "message": "Usuário Nexus estendido com sucesso",
+  "data": {
+    "id": 3001,
+    "username": "usuario_nexus_001",
+    "previous_expires_at": "2024-02-15T10:30:00Z",
+    "new_expires_at": "2024-03-16T10:30:00Z",
+    "days_extended": 30,
+    "package_id": 7,
+    "bandwidth_limit": 300,
+    "updated_at": "2024-01-15T11:00:00Z"
+  }
+}
+```
+
+**Erro (404 Not Found):**
+```json
+{
+  "success": false,
+  "message": "Usuário Nexus não encontrado",
+  "error": "USER_NOT_FOUND"
+}
+```
+
+**Erro (400 Bad Request):**
+```json
+{
+  "success": false,
+  "message": "Créditos insuficientes na revenda",
+  "error": "INSUFFICIENT_CREDITS"
+}
+```
+
+**Erro (409 Conflict):**
+```json
+{
+  "success": false,
+  "message": "Usuário já está expirado. Reative antes de estender",
+  "error": "USER_EXPIRED"
+}
+```

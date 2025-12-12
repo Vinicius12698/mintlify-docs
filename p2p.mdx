@@ -1,0 +1,179 @@
+---
+title: "P2P"
+description: "Endpoints para gerenciamento de usuários P2P"
+---
+
+## POST /p2p
+
+Cria um novo usuário ou teste P2P no sistema.
+
+### Método e Rota
+```
+POST /p2p
+```
+
+### Parâmetros do Corpo da Requisição
+
+| Campo | Tipo | Obrigatório | Descrição |
+|-------|------|-------------|-----------|
+| `amount` | integer | Sim | Quantidade/valor |
+| `contact` | string | Sim | Contato do usuário |
+| `isTrial` | boolean | Sim | Se é um teste gratuito |
+| `month` | number | Sim | Duração em meses |
+| `notes` | string | Não | Observações |
+| `packageId` | string | Sim | ID do pacote P2P |
+| `passline` | string | Sim | Senha de linha |
+| `sale_value` | number | Sim | Valor da venda |
+| `typeUser` | integer | Sim | Tipo do usuário |
+| `userline` | string | Sim | Linha do usuário |
+| `whatsapp` | number | Sim | WhatsApp do usuário (apenas números) |
+
+### Exemplo de Requisição
+
+```json TryIt
+{
+  "amount": 15,
+  "contact": "11111111111111111111",
+  "isTrial": false,
+  "month": 0.5,
+  "notes": "teste ",
+  "packageId": "5da17892133a1d61888029aa",
+  "passline": "17733172",
+  "sale_value": 0,
+  "typeUser": 2,
+  "userline": "364395430",
+  "whatsapp": 5511111111111
+}
+```
+
+```bash cURL
+curl -X POST "https://paineloffice.click/p2p" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer {token}" \
+  -d '{
+    "amount": 15,
+    "contact": "11111111111111111111",
+    "isTrial": false,
+    "month": 0.5,
+    "notes": "teste",
+    "packageId": "5da17892133a1d61888029aa",
+    "passline": "17733172",
+    "sale_value": 0,
+    "typeUser": 2,
+    "userline": "364395430",
+    "whatsapp": 5511111111111
+  }'
+```
+
+### Exemplo de Resposta
+
+**Sucesso (201 Created):**
+```json
+{
+  "message": "Usuário P2P criado com sucesso",
+  "data": {
+    "id": 2001,
+    "username": "usuario_p2p_001",
+    "is_trial": false,
+    "status": "active",
+    "package_id": 3,
+    "resale_id": 15,
+    "max_devices": 3,
+    "expires_at": "2024-02-15T10:30:00Z",
+    "created_at": "2024-01-15T10:30:00Z",
+    "server_url": "http://p2p.servidor.com:8080",
+    "streaming_key": "p2p_key_abc123def456"
+  }
+}
+```
+
+**Erro (422 Unprocessable Entity):**
+```json
+{
+  "success": false,
+  "message": "Dados de entrada inválidos",
+  "errors": {
+    "username": ["Nome de usuário já existe"],
+    "package_id": ["Pacote não encontrado"]
+  }
+}
+```
+
+---
+
+---
+
+## PUT /p2p/extend
+
+Renova um usuário P2P existente, estendendo sua validade.
+
+### Método e Rota
+```
+PUT /p2p/extend
+```
+
+### Parâmetros do Corpo da Requisição
+
+| Campo | Tipo | Obrigatório | Descrição |
+|-------|------|-------------|-----------|
+| `amount` | number | Sim | Valor da renovação |
+| `month` | integer | Sim | Número de meses para estender |
+| `screen` | integer | Sim | Número de telas |
+
+### Exemplo de Requisição
+
+```json TryIt
+{
+  "amount": 150.01,
+  "month": 1,
+  "screen": 1
+}
+```
+
+```bash cURL
+curl -X PUT "https://paineloffice.click/p2p/extend" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer {token}" \
+  -d '{
+    "amount": 150.01,
+    "month": 1,
+    "screen": 1
+  }'
+```
+
+### Exemplo de Resposta
+
+**Sucesso (200 OK):**
+```json
+{
+  "message": "Usuário P2P renovado com sucesso",
+  "data": {
+    "id": 2001,
+    "username": "usuario_p2p_001",
+    "previous_expires_at": "2024-02-15T10:30:00Z",
+    "new_expires_at": "2024-03-16T10:30:00Z",
+    "days_extended": 30,
+    "package_id": 3,
+    "max_devices": 5,
+    "updated_at": "2024-01-15T11:00:00Z"
+  }
+}
+```
+
+**Erro (404 Not Found):**
+```json
+{
+  "success": false,
+  "message": "Usuário P2P não encontrado",
+  "error": "USER_NOT_FOUND"
+}
+```
+
+**Erro (400 Bad Request):**
+```json
+{
+  "success": false,
+  "message": "Créditos insuficientes na revenda",
+  "error": "INSUFFICIENT_CREDITS"
+}
+```

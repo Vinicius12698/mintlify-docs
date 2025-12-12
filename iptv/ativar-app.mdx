@@ -1,0 +1,132 @@
+---
+title: " Ativar Aplicativo"
+api: "POST https://api-new.paineloffice.click/iptv/activate/app"
+description: "Ativa aplicativo IPTV"
+auth: "none"
+---
+
+## Endpoints
+
+### Ativar Aplicativo
+
+<CodeGroup>
+
+```bash Requisição
+POST /iptv/activate/app
+Authorization: Bearer <token>
+```
+
+</CodeGroup>
+
+### Criar Teste IPTV
+
+<CodeGroup>
+
+```bash Requisição
+POST /iptv/teste
+Authorization: Bearer <token>
+```
+
+</CodeGroup>
+
+## Descrição
+
+Ativa um aplicativo IPTV específico para um usuário ou cria um teste IPTV gratuito.
+
+## Parâmetros - Ativar Aplicativo
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token para autenticação
+</ParamField>
+
+<ParamField body="id_user" type="integer" required>
+  ID do usuário IPTV
+</ParamField>
+
+<ParamField body="nameApp" type="string" required>
+  Nome do aplicativo
+</ParamField>
+
+<ParamField body="namePlaylist" type="string" required>
+  Nome da playlist
+</ParamField>
+
+<ParamField body="deviceKey" type="string" required>
+  Chave única do dispositivo
+</ParamField>
+
+## Resposta
+
+<ResponseField name="success" type="boolean">
+  Indica se a operação foi bem-sucedida
+</ResponseField>
+
+<ResponseField name="message" type="string">
+  Mensagem de confirmação
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="properties">
+    <ResponseField name="user_id" type="integer">
+      ID do usuário IPTV
+    </ResponseField>
+    <ResponseField name="app_name" type="string">
+      Nome do aplicativo ativado
+    </ResponseField>
+    <ResponseField name="device_id" type="string">
+      ID do dispositivo
+    </ResponseField>
+    <ResponseField name="device_name" type="string">
+      Nome do dispositivo
+    </ResponseField>
+    <ResponseField name="activation_code" type="string">
+      Código de ativação
+    </ResponseField>
+    <ResponseField name="app_url" type="string">
+      URL do aplicativo
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## Exemplo de Requisição
+
+<CodeGroup>
+
+```json TryIt
+{
+  "nameApp": "Brasil IPTV",
+  "namePlaylist": "Lista Exemplo",
+  "deviceKey": "12:31:23:12:31:23",
+  "id_user": 12345
+}
+```
+
+```bash cURL
+curl -X POST "https://api-new.paineloffice.click/iptv/activate/app" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{
+    "nameApp": "Brasil IPTV",
+    "namePlaylist": "Lista Exemplo",
+    "deviceKey": "12:31:23:12:31:23",
+    "id_user": 12345
+  }'
+```
+
+</CodeGroup>
+
+## Exemplo de Resposta
+
+```json
+{
+  "message": "Aplicativo ativado com sucesso",
+  "data": {
+    "user_id": 1001,
+    "app_name": "smarttv",
+    "device_id": "TV_SAMSUNG_123456",
+    "device_name": "Samsung Smart TV - Sala",
+    "activation_code": "IPTV2024ACTIVE",
+    "app_url": "http://app.iptv.com/smarttv"
+  }
+}
+```

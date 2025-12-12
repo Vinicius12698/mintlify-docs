@@ -1,0 +1,131 @@
+---
+title: " Criar Revenda"
+api: "POST https://api-new.paineloffice.click/resale"
+description: "Cria uma nova revenda"
+auth: "none"
+---
+
+<RequestExample>
+
+```json Exemplo de Body
+{
+  "credits": 10,
+  "email": "teste@gmail.com",
+  "master": false,
+  "notes": "teste",
+  "pass": "1111asawe",
+  "pattern": 0,
+  "sale": 10,
+  "user": "11111111",
+  "whatsapp": 5511111111111
+}
+```
+
+</RequestExample>
+
+## Endpoint
+
+<CodeGroup>
+
+```bash Requisição
+POST /resale
+Authorization: Bearer <token>
+```
+
+</CodeGroup>
+
+## Descrição
+
+Cria uma nova revenda no sistema com os dados fornecidos.
+
+## Parâmetros
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token para autenticação
+</ParamField>
+
+<ParamField body="user" type="string" required>
+  Nome de usuário da revenda
+</ParamField>
+
+<ParamField body="pass" type="string" required>
+  Senha da revenda
+</ParamField>
+
+<ParamField body="notes" type="string">
+  Notas sobre a revenda
+</ParamField>
+
+<ParamField body="whatsapp" type="number">
+  WhatsApp da revenda (apenas números)
+</ParamField>
+
+<ParamField body="email" type="string">
+  E-mail da revenda
+</ParamField>
+
+<ParamField body="master" type="boolean">
+  Se é master (true/false)
+</ParamField>
+
+<ParamField body="credits" type="number">
+  Créditos iniciais (Mínimo  10 créditos)
+</ParamField>
+
+<ParamField body="pattern" type="integer">
+  Padrão do sistema
+</ParamField>
+
+<ParamField body="sale" type="number">
+  Valor de venda
+</ParamField>
+
+## Resposta
+
+<ResponseField name="success" type="boolean">
+  Indica se a operação foi bem-sucedida
+</ResponseField>
+
+<ResponseField name="message" type="string">
+  Mensagem de confirmação
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="properties">
+    <ResponseField name="id" type="integer">
+      ID da revenda criada
+    </ResponseField>
+    <ResponseField name="name" type="string">
+      Nome da revenda
+    </ResponseField>
+    <ResponseField name="email" type="string">
+      Email da revenda
+    </ResponseField>
+    <ResponseField name="credits" type="number">
+      Créditos da revenda
+    </ResponseField>
+    <ResponseField name="status" type="string">
+      Status da revenda
+    </ResponseField>
+    <ResponseField name="created_at" type="string">
+      Data de criação
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## Exemplo de Resposta
+
+**Sucesso (201 Created):**
+```json
+{
+  "message": "Revenda criada com sucesso",
+  "data": {
+    "id": 15,
+    "name": "Revenda Premium",
+    "email": "contato@revendapremium.com",
+    "credits": 100,
+    "status": "active",
+    "created_at": "2024-01-15T10:30:00Z"
+  }
+}
+```

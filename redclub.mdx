@@ -1,0 +1,169 @@
+---
+title: "Red Club"
+description: "Endpoints para gerenciamento de usuários RedClub"
+---
+
+## POST /red-club
+
+Cria um novo usuário RedClub no sistema.
+
+### Método e Rota
+```
+POST /red-club
+```
+
+### Parâmetros do Corpo da Requisição
+
+| Campo | Tipo | Obrigatório | Descrição |
+|-------|------|-------------|-----------|
+| `username` | string | Sim | Nome de usuário RedClub |
+| `password` | string | Sim | Senha do usuário |
+| `email` | string | Sim | E-mail do usuário |
+| `phone` | string | Não | Telefone do usuário |
+| `is_trial` | boolean | Não | Se é um teste gratuito (padrão: false) |
+| `trial_duration` | integer | Não | Duração do teste em horas (obrigatório se is_trial=true) |
+| `package_id` | integer | Sim | ID do pacote RedClub |
+| `resale_id` | integer | Sim | ID da revenda |
+| `profile_type` | string | Não | Tipo de perfil (basic/premium/vip) |
+
+### Exemplo de Requisição
+
+```bash
+curl -X POST "https://paineloffice.click/red-club" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer {token}" \
+  -d '{
+    "username": "usuario_redclub_001",
+    "password": "senha123",
+    "email": "usuario@redclub.com",
+    "phone": "+5511999999999",
+    "is_trial": false,
+    "package_id": 9,
+    "resale_id": 15,
+    "profile_type": "premium"
+  }'
+```
+
+### Exemplo de Resposta
+
+**Sucesso (201 Created):**
+```json
+{
+  "message": "Usuário RedClub criado com sucesso",
+  "data": {
+    "id": 4001,
+    "username": "usuario_redclub_001",
+    "email": "usuario@redclub.com",
+    "phone": "+5511999999999",
+    "is_trial": false,
+    "status": "active",
+    "package_id": 9,
+    "resale_id": 15,
+    "profile_type": "premium",
+    "expires_at": "2024-02-15T10:30:00Z",
+    "created_at": "2024-01-15T10:30:00Z",
+    "access_url": "https://redclub.servidor.com/portal",
+    "member_id": "RC_4001_PREMIUM"
+  }
+}
+```
+
+**Erro (422 Unprocessable Entity):**
+```json
+{
+  "success": false,
+  "message": "Dados de entrada inválidos",
+  "errors": {
+    "username": ["Nome de usuário já existe"],
+    "email": ["E-mail já está em uso"],
+    "package_id": ["Pacote não encontrado"]
+  }
+}
+```
+
+---
+
+---
+
+## POST /red-club/extend/{id}
+
+Estende a validade de um usuário RedClub existente.
+
+### Método e Rota
+```
+POST /red-club/extend/{id}
+```
+
+### Parâmetros da URL
+
+| Campo | Tipo | Obrigatório | Descrição |
+|-------|------|-------------|-----------|
+| `id` | integer | Sim | ID do usuário RedClub |
+
+### Parâmetros do Corpo da Requisição
+
+| Campo | Tipo | Obrigatório | Descrição |
+|-------|------|-------------|-----------|
+| `extend_days` | integer | Sim | Número de dias para estender |
+| `package_id` | integer | Não | Novo ID do pacote (opcional) |
+| `profile_type` | string | Não | Novo tipo de perfil (opcional) |
+
+### Exemplo de Requisição
+
+```bash
+curl -X POST "https://paineloffice.click/red-club/extend/4001" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer {token}" \
+  -d '{
+    "extend_days": 30,
+    "package_id": 9,
+    "profile_type": "vip"
+  }'
+```
+
+### Exemplo de Resposta
+
+**Sucesso (200 OK):**
+```json
+{
+  "message": "Usuário RedClub estendido com sucesso",
+  "data": {
+    "id": 4001,
+    "username": "usuario_redclub_001",
+    "previous_expires_at": "2024-02-15T10:30:00Z",
+    "new_expires_at": "2024-03-16T10:30:00Z",
+    "days_extended": 30,
+    "package_id": 9,
+    "profile_type": "vip",
+    "member_id": "RC_4001_VIP",
+    "updated_at": "2024-01-15T11:00:00Z"
+  }
+}
+```
+
+**Erro (404 Not Found):**
+```json
+{
+  "success": false,
+  "message": "Usuário RedClub não encontrado",
+  "error": "USER_NOT_FOUND"
+}
+```
+
+**Erro (400 Bad Request):**
+```json
+{
+  "success": false,
+  "message": "Créditos insuficientes na revenda",
+  "error": "INSUFFICIENT_CREDITS"
+}
+```
+
+**Erro (409 Conflict):**
+```json
+{
+  "success": false,
+  "message": "Usuário já está expirado. Reative antes de estender",
+  "error": "USER_EXPIRED"
+}
+```

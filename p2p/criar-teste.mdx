@@ -1,0 +1,129 @@
+---
+title: "Criar Teste P2P"
+api: "POST https://api-new.paineloffice.click/p2p"
+description: "Cria um teste gratuito P2P no sistema"
+auth: "none"
+---
+
+## Endpoint
+
+<CodeGroup>
+
+```bash Requisição
+POST /p2p
+Authorization: Bearer <token>
+```
+
+</CodeGroup>
+
+## Descrição
+
+Cria um novo teste gratuito P2P no sistema. Esta é a mesma rota usada para criar usuários P2P, mas com `isTrial: true` para testes gratuitos.
+
+## Parâmetros
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token para autenticação
+</ParamField>
+
+<ParamField body="isTrial" type="boolean" required default="true">
+  Sempre `true` para testes gratuitos (valor fixo)
+</ParamField>
+
+<ParamField body="notes" type="string">
+  Observações sobre o teste
+</ParamField>
+
+<ParamField body="packageId" type="string" required>
+  ID do pacote P2P está disponível na página principal do endpoint
+</ParamField>
+
+<ParamField body="typeUser" type="integer" required>
+  Tipo do usuário (fixo: 2)
+</ParamField>
+
+## Pacotes Disponíveis
+
+| ID do Pacote | Nome/Descrição |
+|--------------|----------------|
+| `5da17892133a1d61888029aa` | Pacote Padrão P2P |
+
+## Exemplo de Requisição
+
+<CodeGroup>
+
+```json TryIt
+{
+  "isTrial": true,
+  "notes": "teste",
+  "packageId": "",
+  "typeUser": 2
+}
+```
+
+```bash cURL
+curl -X POST "https://api-new.paineloffice.click/p2p" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{
+    "isTrial": true,
+    "notes": "teste",
+    "packageId": "5da17892133a1d61888029aa",
+    "typeUser": 2
+  }'
+```
+
+</CodeGroup>
+
+## Resposta
+
+<ResponseField name="success" type="boolean">
+  Indica se a operação foi bem-sucedida
+</ResponseField>
+
+<ResponseField name="message" type="string">
+  Mensagem de confirmação
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="properties">
+    <ResponseField name="id" type="integer">
+      ID do teste P2P criado
+    </ResponseField>
+    <ResponseField name="username" type="string">
+      Nome de usuário P2P
+    </ResponseField>
+    <ResponseField name="status" type="string">
+      Status do teste
+    </ResponseField>
+    <ResponseField name="max_devices" type="integer">
+      Número máximo de dispositivos
+    </ResponseField>
+    <ResponseField name="expires_at" type="string">
+      Data de expiração do teste
+    </ResponseField>
+    <ResponseField name="server_url" type="string">
+      URL do servidor P2P
+    </ResponseField>
+    <ResponseField name="streaming_key" type="string">
+      Chave de streaming
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## Exemplo de Resposta
+
+```json
+{
+  "message": "Teste P2P criado com sucesso",
+  "data": {
+    "id": 2001,
+    "username": "teste_p2p_001",
+    "status": "active",
+    "max_devices": 1,
+    "expires_at": "2024-02-15T10:30:00Z",
+    "server_url": "http://p2p.servidor.com:8080",
+    "streaming_key": "p2p_key_abc123def456"
+  }
+}
+```

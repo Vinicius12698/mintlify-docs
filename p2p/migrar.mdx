@@ -1,0 +1,121 @@
+---
+title: "Migrar Usuário P2P"
+api: "POST https://api-new.paineloffice.click/p2p/migrate/{id}"
+description: "Migra um usuário P2P para um novo pacote"
+auth: "none"
+---
+
+## Endpoint
+
+### Migrar Usuário P2P
+
+<CodeGroup>
+
+```bash Requisição
+POST /p2p/migrate/{id}
+Authorization: Bearer <token>
+Content-Type: application/json
+```
+
+</CodeGroup>
+
+## Descrição
+
+Migra um usuário P2P existente para um novo pacote, alterando seu plano e tipo de usuário.
+
+## Parâmetros
+
+### Path Parameters
+
+<ParamField path="id" type="string" required>
+  ID do usuário P2P a ser migrado
+</ParamField>
+
+### Headers
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token para autenticação
+</ParamField>
+
+### Body Parameters
+
+<ParamField body="packageId" type="string" required>
+  ID do pacote para o qual o usuário será migrado
+</ParamField>
+
+## Resposta
+
+<ResponseField name="success" type="boolean">
+  Indica se a operação foi bem-sucedida
+</ResponseField>
+
+<ResponseField name="message" type="string">
+  Mensagem de confirmação da migração
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="properties">
+    <ResponseField name="id" type="string">
+      ID do usuário migrado
+    </ResponseField>
+    <ResponseField name="packageId" type="string">
+      ID do novo pacote
+    </ResponseField>
+    <ResponseField name="updatedAt" type="string">
+      Data e hora da migração
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## Exemplo de Requisição
+
+<CodeGroup>
+
+```json TryIt
+{
+  "packageId": "5da17892133a1d61888029aa"
+}
+```
+
+```bash cURL
+curl -X POST "https://api-new.paineloffice.click/p2p/migrate/507f1f77bcf86cd799439011" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{
+    "packageId": "5da17892133a1d61888029aa"
+  }'
+```
+
+</CodeGroup>
+
+## Exemplo de Resposta
+
+```json
+{
+  "success": true,
+  "message": "Usuário P2P migrado com sucesso",
+  "data": {
+    "id": "507f1f77bcf86cd799439011",
+    "packageId": "5da17892133a1d61888029aa",
+    "updatedAt": "2024-10-22T14:30:00Z"
+  }
+}
+```
+
+## Códigos de Erro
+
+<ResponseField name="400" type="error">
+  Parâmetros inválidos ou ausentes
+</ResponseField>
+
+<ResponseField name="401" type="error">
+  Token de autenticação inválido ou ausente
+</ResponseField>
+
+<ResponseField name="404" type="error">
+  Usuário P2P não encontrado
+</ResponseField>
+
+<ResponseField name="500" type="error">
+  Erro interno do servidor
+</ResponseField>

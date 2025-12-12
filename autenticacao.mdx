@@ -1,0 +1,126 @@
+---
+title: "Login"
+api: "POST https://api-new.paineloffice.click/auth/login"
+description: "Realiza login"
+---
+
+## Endpoint
+
+<CodeGroup>
+
+```bash Requisição
+POST /auth/login
+```
+
+</CodeGroup>
+
+## Descrição
+
+Realiza o login no sistema e retorna um token de acesso para autenticação nas demais requisições da API.
+
+## Parâmetros
+
+<ParamField body="email" type="string" required>
+  E-mail do usuário
+</ParamField>
+
+<ParamField body="password" type="string" required>
+  Senha do usuário
+</ParamField>
+
+## Resposta
+
+<ResponseField name="auth" type="boolean">
+  Indica se a autenticação foi bem-sucedida
+</ResponseField>
+
+<ResponseField name="username" type="string">
+  Nome de usuário codificado em base64
+</ResponseField>
+
+<ResponseField name="password" type="string">
+  Senha codificada em base64
+</ResponseField>
+
+<ResponseField name="token" type="string">
+  Token de autenticação
+</ResponseField>
+
+<ResponseField name="id" type="number">
+  ID do usuário
+</ResponseField>
+
+<ResponseField name="big_tree" type="null">
+  Campo reservado para estrutura hierárquica
+</ResponseField>
+
+<ResponseField name="isMaster" type="boolean">
+  Indica se o usuário é master
+</ResponseField>
+
+<ResponseField name="user" type="object">
+  <Expandable title="properties">
+    <ResponseField name="type_user" type="string">
+      Tipo de usuário (ex: "Resellers")
+    </ResponseField>
+    <ResponseField name="id" type="number">
+      ID do usuário
+    </ResponseField>
+    <ResponseField name="username" type="string">
+      Nome de usuário
+    </ResponseField>
+    <ResponseField name="credits" type="number">
+      Quantidade de créditos disponíveis
+    </ResponseField>
+    <ResponseField name="franchise_id" type="number">
+      ID da franquia
+    </ResponseField>
+    <ResponseField name="franquia" type="null">
+      Dados da franquia (null se não houver)
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## Exemplo de Resposta
+
+**Sucesso (200 OK):**
+```json
+{
+  "auth": true,
+  "username": "bWlyZWxhdGVzdGU=",
+  "password": "dGVzdGUxMjM=",
+  "token": "e082a50b38f212f7216218a72c71c79f",
+  "id": 1933600,
+  "big_tree": null,
+  "isMaster": true,
+  "user": {
+    "type_user": "Resellers",
+    "id": 1933600,
+    "username": "mirelateste",
+    "credits": 268,
+    "franchise_id": 1,
+    "franquia": null
+  }
+}
+```
+
+**Erro (401 Unauthorized):**
+```json
+{
+  "success": false,
+  "message": "Credenciais inválidas",
+  "error": "INVALID_CREDENTIALS"
+}
+```
+
+**Erro (422 Unprocessable Entity):**
+```json
+{
+  "success": false,
+  "message": "Dados de entrada inválidos",
+  "errors": {
+    "email": ["O campo email é obrigatório"],
+    "password": ["O campo password é obrigatório"]
+  }
+}
+```

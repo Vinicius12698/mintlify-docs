@@ -1,0 +1,116 @@
+---
+title: " Renovar P2P"
+api: "PUT https://api-new.paineloffice.click/p2p/extend/{id}"
+description: "Renova um usuário P2P"
+auth: "none"
+---
+
+## Endpoint
+
+<CodeGroup>
+
+```bash Requisição
+PUT /p2p/extend/{id}
+Authorization: Bearer <token>
+```
+
+</CodeGroup>
+
+## Descrição
+
+Renova um usuário P2P existente, estendendo sua validade.
+
+## Parâmetros
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token para autenticação
+</ParamField>
+
+<ParamField path="id" type="string" required>
+  ID do usuário P2P
+</ParamField>
+
+## Parâmetros do Body
+
+<ParamField body="amount" type="number" required>
+  Valor da renovação
+</ParamField>
+
+<ParamField body="month" type="integer" required>
+  Número de meses para estender
+</ParamField>
+
+
+## Exemplo de Requisição
+
+<CodeGroup>
+
+```json TryIt
+{
+  "amount": 150.01,
+  "month": 1,
+  "screen": 1
+}
+```
+
+```bash cURL
+curl -X PUT "https://api-new.paineloffice.click/p2p/extend/{id}" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{
+    "amount": 150.01,
+    "month": 1,
+    "screen": 1
+  }'
+```
+
+</CodeGroup>
+
+## Resposta
+
+<ResponseField name="success" type="boolean">
+  Indica se a operação foi bem-sucedida
+</ResponseField>
+
+<ResponseField name="message" type="string">
+  Mensagem de confirmação
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="properties">
+    <ResponseField name="id" type="integer">
+      ID do usuário P2P
+    </ResponseField>
+    <ResponseField name="username" type="string">
+      Nome de usuário
+    </ResponseField>
+    <ResponseField name="previous_expires_at" type="string">
+      Data de expiração anterior
+    </ResponseField>
+    <ResponseField name="new_expires_at" type="string">
+      Nova data de expiração
+    </ResponseField>
+    <ResponseField name="days_extended" type="integer">
+      Dias estendidos
+    </ResponseField>
+    <ResponseField name="max_devices" type="integer">
+      Novo limite de dispositivos
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## Exemplo de Resposta
+
+```json
+{
+  "message": "Usuário P2P renovado com sucesso",
+  "data": {
+    "id": 2001,
+    "username": "usuario_p2p_001",
+    "previous_expires_at": "2024-02-15T10:30:00Z",
+    "new_expires_at": "2024-03-16T10:30:00Z",
+    "days_extended": 30,
+    "max_devices": 5
+  }
+}
+```

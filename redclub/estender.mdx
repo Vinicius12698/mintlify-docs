@@ -1,0 +1,104 @@
+---
+title: " Renovar RedClub"
+api: "POST https://api-new.paineloffice.click/red-club/extend/{id}"
+description: "Estende o usuário RedClub"
+auth: "none"
+---
+
+## Endpoint
+
+<CodeGroup>
+
+```bash Requisição
+POST /red-club/extend/{id}
+Authorization: Bearer <token>
+```
+
+</CodeGroup>
+
+## Descrição
+
+Estende a validade de um usuário RedClub existente.
+
+## Parâmetros
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token para autenticação
+</ParamField>
+
+<ParamField path="id" type="string" required>
+  ID do usuário RedClub
+</ParamField>
+
+<ParamField body="credits" type="number" required>
+  Créditos para extensão
+</ParamField>
+
+
+## Exemplo de Requisição
+
+<CodeGroup>
+
+```bash cURL
+curl -X POST "https://api-new.paineloffice.click/red-club/extend/{id}" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{
+    "credits": 1
+  }'
+```
+
+</CodeGroup>
+
+## Resposta
+
+<ResponseField name="success" type="boolean">
+  Indica se a operação foi bem-sucedida
+</ResponseField>
+
+<ResponseField name="message" type="string">
+  Mensagem de confirmação
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="properties">
+    <ResponseField name="id" type="integer">
+      ID do usuário RedClub
+    </ResponseField>
+    <ResponseField name="username" type="string">
+      Nome de usuário
+    </ResponseField>
+    <ResponseField name="previous_expires_at" type="string">
+      Data de expiração anterior
+    </ResponseField>
+    <ResponseField name="new_expires_at" type="string">
+      Nova data de expiração
+    </ResponseField>
+    <ResponseField name="days_extended" type="integer">
+      Dias estendidos
+    </ResponseField>
+    <ResponseField name="profile_type" type="string">
+      Novo tipo de perfil
+    </ResponseField>
+    <ResponseField name="member_id" type="string">
+      ID de membro atualizado
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## Exemplo de Resposta
+
+```json
+{
+  "message": "Usuário RedClub estendido com sucesso",
+  "data": {
+    "id": 4001,
+    "username": "usuario_redclub_001",
+    "previous_expires_at": "2024-02-15T10:30:00Z",
+    "new_expires_at": "2024-03-16T10:30:00Z",
+    "days_extended": 30,
+    "profile_type": "vip",
+    "member_id": "RC_4001_VIP"
+  }
+}
+```

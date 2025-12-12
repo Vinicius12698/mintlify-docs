@@ -1,0 +1,113 @@
+---
+title: " Renovar IPTV"
+api: "PUT https://api-new.paineloffice.click/iptv/extend/{id}"
+description: "Renova um usuário IPTV"
+auth: "none"
+---
+
+## Endpoint
+
+<CodeGroup>
+
+```bash Requisição
+PUT /iptv/extend/{id}
+Authorization: Bearer <token>
+```
+
+</CodeGroup>
+
+## Descrição
+
+Renova um usuário IPTV existente, estendendo sua validade.
+
+## Parâmetros
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token para autenticação
+</ParamField>
+
+<ParamField path="id" type="integer" required>
+  ID do usuário IPTV que será renovado
+</ParamField>
+
+<ParamField body="amount" type="number" required>
+  Valor da renovação
+</ParamField>
+
+<ParamField body="month" type="number" required>
+  Duração em meses
+</ParamField>
+
+<ParamField body="screen" type="integer" required>
+  Só é possivel até  4 telas 
+</ParamField>
+
+## Resposta
+
+<ResponseField name="success" type="boolean">
+  Indica se a operação foi bem-sucedida
+</ResponseField>
+
+<ResponseField name="message" type="string">
+  Mensagem de confirmação
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="properties">
+    <ResponseField name="id" type="integer">
+      ID do usuário IPTV
+    </ResponseField>
+    <ResponseField name="username" type="string">
+      Nome de usuário
+    </ResponseField>
+    <ResponseField name="previous_expires_at" type="string">
+      Data de expiração anterior
+    </ResponseField>
+    <ResponseField name="new_expires_at" type="string">
+      Nova data de expiração
+    </ResponseField>
+    <ResponseField name="days_extended" type="integer">
+      Dias estendidos
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## Exemplo de Requisição
+
+<CodeGroup>
+
+```json TryIt
+{
+  "amount": 150.01,
+  "month": 1,
+  "screen": 1
+}
+```
+
+```bash cURL
+curl -X PUT "https://api-new.paineloffice.click/iptv/extend/1001" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{
+    "amount": 150.01,
+    "month": 1,
+    "screen": 1
+  }'
+```
+
+</CodeGroup>
+
+## Exemplo de Resposta
+
+```json
+{
+  "message": "Usuário IPTV renovado com sucesso",
+  "data": {
+    "id": 1001,
+    "username": "usuario_iptv_001",
+    "previous_expires_at": "2024-02-15T10:30:00Z",
+    "new_expires_at": "2024-03-16T10:30:00Z",
+    "days_extended": 30
+  }
+}
+```

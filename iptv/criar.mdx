@@ -1,0 +1,209 @@
+---
+title: " Criar IPTV"
+api: "POST https://api-new.paineloffice.click/iptv"
+description: "Cria um usuário IPTV"
+auth: "none"
+---
+
+## Endpoints
+
+### Criar IPTV
+
+<CodeGroup>
+
+```bash Requisição
+POST /iptv
+Authorization: Bearer <token>
+```
+
+</CodeGroup>
+
+### Renovar IPTV
+
+<CodeGroup>
+
+```bash Requisição
+POST /iptv/renovar
+Authorization: Bearer <token>
+```
+
+</CodeGroup>
+
+### Ativar IPTV
+
+<CodeGroup>
+
+```bash Requisição
+POST /iptv/ativar
+Authorization: Bearer <token>
+```
+
+</CodeGroup>
+
+### Criar Teste IPTV
+
+<CodeGroup>
+
+```bash Requisição
+POST /iptv/teste
+Authorization: Bearer <token>
+```
+
+</CodeGroup>
+
+## Descrição
+
+Cria, renova, ativa um usuário IPTV ou cria um teste IPTV gratuito no sistema.
+
+### Pacotes Disponíveis
+
+- **24** - COMPLETO
+- **25** - TESTE (SEM ESPORTIVOS E ABERTOS)
+- **26** - COMPLETO (SEM ADULTOS)
+- **27** - COMPLETO (SEM INTERNACIONAIS)
+- **28** - SOMENTE VODS E ADULTOS
+- **29** - SOMENTE VODS (SEM ADULTOS)
+- **30** - SOMENTE CANAIS E ADULTOS (SEM VODS)
+- **31** - SOMENTE CANAIS (SEM ADULTOS E SEM VODS)
+- **32** - SOMENTE CANAIS ESPORTIVOS E ADULTOS
+- **33** - CANAIS ESPORTIVOS (SEM ADULTO)
+- **34** - CANAIS INTERNACIONAIS
+- **35** - INTERNACIONAIS E ADULTOS
+- **36** - PACOTE CAMERAS (PLAY STORE)
+- **37** - COMPLETO (SEM INTER SEM ADULTOS)
+- **38** - Sem Conteúdo
+- **44** - COMPLETO SEM 24H
+
+## Parâmetros
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token para autenticação
+</ParamField>
+
+<ParamField body="userline" type="string" required>
+  Nome de usuário IPTV
+</ParamField>
+
+<ParamField body="passline" type="string" required>
+  Senha do usuário
+</ParamField>
+
+<ParamField body="screen" type="integer">
+  Número máximo de conexões simultâneas (padrão: 1)
+</ParamField>
+
+<ParamField body="isTrial" type="boolean">
+  Se é criação de usuário (padrão: false)
+</ParamField>
+
+<ParamField body="month" type="number">
+  Duração em meses
+</ParamField>
+
+<ParamField body="packageId" type="integer" required default="24">
+  Selecione o pacote, de acordo com o ID que está na descrição do endpoint
+</ParamField>
+
+<ParamField body="contact" type="string">
+  Informações de e-email
+</ParamField>
+
+<ParamField body="whatsapp" type="number">
+  Número do WhatsApp (apenas números)
+</ParamField>
+
+<ParamField body="notes" type="string">
+  Observações adicionais
+</ParamField>
+
+## Resposta
+
+<ResponseField name="success" type="boolean">
+  Indica se a operação foi bem-sucedida
+</ResponseField>
+
+<ResponseField name="message" type="string">
+  Mensagem de confirmação
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="properties">
+    <ResponseField name="id" type="integer">
+      ID do usuário IPTV criado
+    </ResponseField>
+    <ResponseField name="username" type="string">
+      Nome de usuário IPTV
+    </ResponseField>
+    <ResponseField name="max_connections" type="integer">
+      Número máximo de conexões
+    </ResponseField>
+    <ResponseField name="status" type="string">
+      Status do usuário
+    </ResponseField>
+    <ResponseField name="expires_at" type="string">
+      Data de expiração
+    </ResponseField>
+    <ResponseField name="connection_url" type="string">
+      URL de conexão IPTV
+    </ResponseField>
+    <ResponseField name="m3u_url" type="string">
+      URL do arquivo M3U
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## Exemplo de Requisição
+
+<CodeGroup>
+
+```json TryIt
+{
+  "amount": 15,
+  "contact": "teste@gmail.com",
+  "isTrial": false,
+  "month": 0.5,
+  "notes": "123",
+  "packageId": 24,
+  "passline": "70774455",
+  "screen": 1,
+  "userline": "229063642",
+  "whatsapp": 5511111111111
+}
+```
+
+```bash cURL
+curl -X POST "https://api-new.paineloffice.click/iptv" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{
+    "amount": 15,
+    "contact": "teste@gmail.com",
+    "isTrial": false,
+    "month": 0.5,
+    "notes": "123",
+    "packageId": 24,
+    "passline": "70774455",
+    "screen": 1,
+    "userline": "229063642",
+    "whatsapp": 5511111111111
+  }'
+```
+
+</CodeGroup>
+
+## Exemplo de Resposta
+
+```json
+{
+  "message": "Usuário IPTV criado com sucesso",
+  "data": {
+    "id": 1001,
+    "username": "usuario_iptv_001",
+    "max_connections": 2,
+    "status": "active",
+    "expires_at": "2024-02-15T10:30:00Z",
+    "connection_url": "http://servidor.iptv.com:8080",
+    "m3u_url": "http://servidor.iptv.com:8080/get.php?username=usuario_iptv_001&password=senha123&type=m3u_plus"
+  }
+}
+```

@@ -1,0 +1,125 @@
+
+
+# Documentação da API - Painel Office
+
+Bem-vindo à documentação da API do **Painel Office**. Esta API oferece acesso completo aos sistemas de gerenciamento de revendas, usuários IPTV, P2P, Nexus e Red Club.
+
+## Visão Geral
+
+A API do Painel Office é uma REST API que utiliza autenticação por Bearer Token e retorna dados em formato JSON. Todas as requisições devem incluir o cabeçalho de autorização após realizar o login.
+
+### URL Base
+```
+https://paineloffice.click
+```
+
+### Autenticação
+Todas as requisições (exceto login) requerem um token de acesso válido no cabeçalho:
+```
+Authorization: Bearer {seu_token_aqui}
+```
+
+## Comece aqui
+
+Explore as principais funcionalidades da API com exemplos práticos:
+
+<CardGroup cols={2}>
+  <Card
+    title="IPTV"
+    icon="tv"
+    href="/iptv"
+  >
+    Criação e renovação de usuários IPTV, ativação de aplicativos e gerenciamento completo da plataforma de streaming.
+  </Card>
+
+  <Card
+    title="Nexus"
+    icon="bolt"
+    href="/nexus"
+  >
+    Controle de usuários da plataforma Nexus com criação, renovação e configurações específicas do serviço.
+  </Card>
+
+  <Card
+    title="P2P"
+    icon="share-nodes"
+    href="/p2p"
+  >
+    Gerenciamento de usuários do sistema P2P incluindo criação, renovação e administração de contas.
+  </Card>
+
+  <Card
+    title="Red Club"
+    icon="users"
+    href="/redclub"
+  >
+    Administração de membros do Red Club com funcionalidades de cadastro, renovação e gestão de usuários.
+  </Card>
+
+  <Card
+    title="Revenda"
+    icon="store"
+    href="/revenda"
+  >
+    Gerenciamento completo de revendas incluindo criação, adição de créditos e configurações administrativas.
+  </Card>
+</CardGroup>
+
+## Seções da API
+
+### 🔐 [Autenticação](/autenticacao)
+Sistema de login e geração de tokens de acesso.
+
+### 🏢 [Revenda](/revenda)
+Gerenciamento completo de revendas, incluindo criação, adição de créditos e configurações.
+
+### 📺 [IPTV](/iptv)
+Criação e renovação de usuários IPTV, ativação de aplicativos.
+
+### 🔄 [P2P](/p2p)
+Gerenciamento de usuários do sistema P2P.
+
+### ⚡ [Nexus](/nexus)
+Controle de usuários da plataforma Nexus.
+
+### 🎯 [Red Club](/redclub)
+Administração de membros do Red Club.
+
+## Códigos de Status HTTP
+
+| Código | Descrição |
+|--------|-----------|
+| `200` | OK - Requisição bem-sucedida |
+| `201` | Created - Recurso criado com sucesso |
+| `400` | Bad Request - Dados inválidos ou créditos insuficientes |
+| `401` | Unauthorized - Token inválido ou expirado |
+| `404` | Not Found - Recurso não encontrado |
+| `422` | Unprocessable Entity - Dados de entrada inválidos |
+| `500` | Internal Server Error - Erro interno do servidor |
+
+## Formato de Resposta
+
+Todas as respostas seguem o padrão:
+
+**Sucesso:**
+```json
+{
+  "message": "Descrição da operação",
+  "data": {
+    // dados específicos da resposta
+  }
+}
+```
+
+**Erro:**
+```json
+{
+  "success": false,
+  "message": "Descrição do erro",
+  "error": "CODIGO_DO_ERRO",
+  "errors": {
+    // detalhes específicos de validação (quando aplicável)
+  }
+}
+```
+

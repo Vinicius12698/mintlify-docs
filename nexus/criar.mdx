@@ -1,0 +1,157 @@
+---
+title: "Criar Usuário Nexus"
+api: "POST https://api-new.paineloffice.click/nexus"
+description: "Cria um novo usuário Nexus no sistema (trial: false)"
+auth: "none"
+---
+
+## Endpoint
+
+<CodeGroup>
+
+```bash Requisição
+POST /nexus
+Authorization: Bearer <token>
+```
+
+</CodeGroup>
+
+## Descrição
+
+Cria um novo usuário Nexus no sistema. Esta é a mesma rota usada para criar testes Nexus, mas com `trial: false` para usuários pagos.
+
+## Parâmetros
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token para autenticação
+</ParamField>
+
+<ParamField body="username" type="string" required>
+  Nome de usuário Nexus
+</ParamField>
+
+<ParamField body="password" type="string" required>
+  Senha do usuário
+</ParamField>
+
+<ParamField body="whatsapp" type="number">
+  WhatsApp do usuário (apenas números)
+</ParamField>
+
+<ParamField body="notes" type="string">
+  Observações
+</ParamField>
+
+<ParamField body="email" type="string">
+  E-mail do usuário
+</ParamField>
+
+<ParamField body="months" type="string" required>
+  Duração em meses
+</ParamField>
+
+<ParamField body="sale_value" type="number">
+  Valor da venda
+</ParamField>
+
+<ParamField body="screens" type="integer" required>
+  aplicar descrição de máximo de até 2 telas
+</ParamField>
+
+<ParamField body="trial" type="boolean" required default="false">
+  Para criação de usuário, mantenha false
+</ParamField>
+
+## Exemplo de Requisição
+
+<CodeGroup>
+
+```json TryIt
+{
+  "email": "",
+  "months": "0.5",
+  "notes": "",
+  "password": "588497601",
+  "sale_value": 0,
+  "screens": 1,
+  "trial": false,
+  "username": "20868876qn7",
+  "whatsapp": ""
+}
+```
+
+```bash cURL
+curl -X POST "https://api-new.paineloffice.click/nexus" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{
+    "email": "",
+    "months": "0.5",
+    "notes": "",
+    "password": "588497601",
+    "sale_value": 0,
+    "screens": 1,
+    "trial": false,
+    "username": "20868876qn7",
+    "whatsapp": ""
+  }'
+```
+
+</CodeGroup>
+
+## Resposta
+
+<ResponseField name="success" type="boolean">
+  Indica se a operação foi bem-sucedida
+</ResponseField>
+
+<ResponseField name="message" type="string">
+  Mensagem de confirmação
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="properties">
+    <ResponseField name="id" type="integer">
+      ID do usuário Nexus criado
+    </ResponseField>
+    <ResponseField name="username" type="string">
+      Nome de usuário Nexus
+    </ResponseField>
+    <ResponseField name="email" type="string">
+      E-mail do usuário
+    </ResponseField>
+    <ResponseField name="status" type="string">
+      Status do usuário
+    </ResponseField>
+    <ResponseField name="bandwidth_limit" type="integer">
+      Limite de banda
+    </ResponseField>
+    <ResponseField name="expires_at" type="string">
+      Data de expiração
+    </ResponseField>
+    <ResponseField name="server_url" type="string">
+      URL do servidor Nexus
+    </ResponseField>
+    <ResponseField name="access_token" type="string">
+      Token de acesso
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## Exemplo de Resposta
+
+```json
+{
+  "message": "Usuário Nexus criado com sucesso",
+  "data": {
+    "id": 3001,
+    "username": "usuario_nexus_001",
+    "email": "usuario@exemplo.com",
+    "status": "active",
+    "bandwidth_limit": 200,
+    "expires_at": "2024-02-15T10:30:00Z",
+    "server_url": "https://nexus.servidor.com",
+    "access_token": "nexus_token_xyz789abc123"
+  }
+}
+```

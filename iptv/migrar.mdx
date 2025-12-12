@@ -1,0 +1,131 @@
+---
+title: "Migrar Usuário IPTV"
+api: "POST https://api-new.paineloffice.click/iptv/migrate/{id}"
+description: "Migra um usuário IPTV para um novo pacote"
+auth: "none"
+---
+
+## Endpoint
+
+### Migrar Usuário IPTV
+
+<CodeGroup>
+
+```bash Requisição
+POST /iptv/migrate/{id}
+Authorization: Bearer <token>
+Content-Type: application/json
+```
+
+</CodeGroup>
+
+## Descrição
+
+Migra um usuário IPTV existente para um novo pacote, alterando seu plano e tipo de usuário.
+
+## Parâmetros
+
+### Path Parameters
+
+<ParamField path="id" type="string" required>
+  ID do usuário IPTV a ser migrado
+</ParamField>
+
+### Headers
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token para autenticação
+</ParamField>
+
+### Body Parameters
+
+<ParamField body="packageId" type="string" required>
+  ID do pacote para o qual o usuário será migrado
+</ParamField>
+
+<ParamField body="typeUser" type="number" required>
+  Tipo de usuário (1 = IPTV, 2 = P2P, etc.)
+</ParamField>
+
+## Resposta
+
+<ResponseField name="success" type="boolean">
+  Indica se a operação foi bem-sucedida
+</ResponseField>
+
+<ResponseField name="message" type="string">
+  Mensagem de confirmação da migração
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="properties">
+    <ResponseField name="id" type="string">
+      ID do usuário migrado
+    </ResponseField>
+    <ResponseField name="packageId" type="string">
+      ID do novo pacote
+    </ResponseField>
+    <ResponseField name="typeUser" type="integer">
+      Tipo de usuário atualizado
+    </ResponseField>
+    <ResponseField name="updatedAt" type="string">
+      Data e hora da migração
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## Exemplo de Requisição
+
+<CodeGroup>
+
+```json TryIt
+{
+  "packageId": "5da17892133a1d61888029aa",
+  "typeUser": 2
+}
+```
+
+```bash cURL
+curl -X POST "https://api-new.paineloffice.click/iptv/migrate/507f1f77bcf86cd799439011" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{
+    "packageId": "5da17892133a1d61888029aa",
+    "typeUser": 2
+  }'
+```
+
+</CodeGroup>
+
+## Exemplo de Resposta
+
+```json
+{
+  "success": true,
+  "message": "Usuário IPTV migrado com sucesso",
+  "data": {
+    "id": "507f1f77bcf86cd799439011",
+    "packageId": "5da17892133a1d61888029aa",
+    "typeUser": 2,
+    "updatedAt": "2024-10-22T14:30:00Z"
+  }
+}
+```
+
+## Códigos de Erro
+
+<ResponseField name="400" type="error">
+  Parâmetros inválidos ou ausentes
+</ResponseField>
+
+<ResponseField name="401" type="error">
+  Token de autenticação inválido ou ausente
+</ResponseField>
+
+<ResponseField name="404" type="error">
+  Usuário IPTV não encontrado
+</ResponseField>
+
+<ResponseField name="500" type="error">
+  Erro interno do servidor
+</ResponseField>

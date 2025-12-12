@@ -1,0 +1,147 @@
+---
+title: " Criar Teste IPTV"
+api: "POST https://api-new.paineloffice.click/iptv"
+description: "Cria um teste IPTV gratuito"
+auth: "none"
+---
+
+## Endpoint
+
+<CodeGroup>
+
+```bash Requisição
+POST /iptv
+Authorization: Bearer <token>
+```
+
+</CodeGroup>
+
+## Descrição
+
+Cria um novo teste IPTV gratuito no sistema.
+
+## Parâmetros
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token para autenticação
+</ParamField>
+
+<ParamField body="isTrial" type="boolean" required default="true">
+  Sempre true
+</ParamField>
+
+<ParamField body="screen" type="integer" required default="1">
+  Número máximo de conexões simultâneas (fixo em 1)
+</ParamField>
+
+<ParamField body="packageId" type="integer" required>
+  Selecione o pacote IPTV
+  <enum>
+    <value label="COMPLETO">24</value>
+    <value label="TESTE (SEM ESPORTIVOS E ABERTOS)">25</value>
+    <value label="COMPLETO (SEM ADULTOS)">26</value>
+    <value label="COMPLETO (SEM INTERNACIONAIS)">27</value>
+    <value label="SOMENTE VODS E ADULTOS">28</value>
+    <value label="SOMENTE VODS (SEM ADULTOS)">29</value>
+    <value label="SOMENTE CANAIS E ADULTOS (SEM VODS)">30</value>
+    <value label="SOMENTE CANAIS (SEM ADULTOS E SEM VODS)">31</value>
+    <value label="SOMENTE CANAIS ESPORTIVOS E ADULTOS">32</value>
+    <value label="CANAIS ESPORTIVOS (SEM ADULTO)">33</value>
+    <value label="CANAIS INTERNACIONAIS">34</value>
+    <value label="INTERNACIONAIS E ADULTOS">35</value>
+    <value label="PACOTE CAMERAS (PLAY STORE)">36</value>
+    <value label="COMPLETO (SEM INTER SEM ADULTOS)">37</value>
+    <value label="Sem Conteúdo">38</value>
+    <value label="COMPLETO SEM 24H">39</value>
+  </enum>
+</ParamField>
+
+<ParamField body="whatsapp" type="string">
+  Número do WhatsApp (opcional)
+</ParamField>
+
+<ParamField body="notes" type="string">
+  Observações adicionais
+</ParamField>
+
+## Resposta
+
+<ResponseField name="success" type="boolean">
+  Indica se a operação foi bem-sucedida
+</ResponseField>
+
+<ResponseField name="message" type="string">
+  Mensagem de confirmação
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="properties">
+    <ResponseField name="id" type="integer">
+      ID do teste IPTV criado
+    </ResponseField>
+    <ResponseField name="username" type="string">
+      Nome de usuário IPTV
+    </ResponseField>
+    <ResponseField name="max_connections" type="integer">
+      Número máximo de conexões
+    </ResponseField>
+    <ResponseField name="status" type="string">
+      Status do teste
+    </ResponseField>
+    <ResponseField name="expires_at" type="string">
+      Data de expiração do teste
+    </ResponseField>
+    <ResponseField name="connection_url" type="string">
+      URL de conexão IPTV
+    </ResponseField>
+    <ResponseField name="m3u_url" type="string">
+      URL do arquivo M3U
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## Exemplo de Requisição
+
+<CodeGroup>
+
+```json TryIt
+{
+  "isTrial": true,
+  "notes": "teste-auto",
+  "packageId": 24,
+  "screen": 1,
+  "whatsapp": ""
+}
+```
+
+```bash cURL
+curl -X POST "https://api-new.paineloffice.click/iptv" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{
+    "isTrial": true,
+    "notes": "teste-auto",
+    "packageId": 24,
+    "screen": 1,
+    "whatsapp": ""
+  }'
+```
+
+</CodeGroup>
+
+## Exemplo de Resposta
+
+```json
+{
+  "message": "Teste IPTV criado com sucesso",
+  "data": {
+    "id": 1002,
+    "username": "teste_iptv_001",
+    "max_connections": 1,
+    "status": "trial",
+    "expires_at": "2024-01-20T10:30:00Z",
+    "connection_url": "http://servidor.iptv.com:8080",
+    "m3u_url": "http://servidor.iptv.com:8080/get.php?username=teste_iptv_001&password=70774455&type=m3u_plus"
+  }
+}
+```

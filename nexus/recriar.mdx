@@ -1,0 +1,127 @@
+---
+title: "Recriar Usuário Nexus"
+api: "POST https://api-new.paineloffice.click/nexus/recreate/{id}"
+description: "Recreate um usuário Nexus existente"
+auth: "none"
+---
+
+## Endpoint
+
+<CodeGroup>
+
+```bash Requisição
+POST /nexus/recreate/{id}
+Authorization: Bearer <token>
+Content-Type: application/json
+```
+
+</CodeGroup>
+
+## Descrição
+
+Recreate um usuário Nexus existente, redefinindo suas configurações e credenciais.
+
+## Parâmetros
+
+### Path Parameters
+
+<ParamField path="id" type="string" required>
+  ID do usuário Nexus a ser recreate
+</ParamField>
+
+### Headers
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token para autenticação
+</ParamField>
+
+### Body Parameters
+
+<ParamField body="pass" type="string" required>
+  Nova senha do usuário Nexus
+</ParamField>
+
+## Resposta
+
+<ResponseField name="success" type="boolean">
+  Indica se a operação foi bem-sucedida
+</ResponseField>
+
+<ResponseField name="message" type="string">
+  Mensagem de confirmação
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="properties">
+    <ResponseField name="id" type="string">
+      ID do usuário Nexus recreate
+    </ResponseField>
+    <ResponseField name="username" type="string">
+      Nome de usuário Nexus
+    </ResponseField>
+    <ResponseField name="password" type="string">
+      Nova senha do usuário
+    </ResponseField>
+    <ResponseField name="status" type="string">
+      Status do usuário
+    </ResponseField>
+    <ResponseField name="updatedAt" type="string">
+      Data e hora do recreate
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## Exemplo de Requisição
+
+<CodeGroup>
+
+```json TryIt
+{
+  "pass": "novaSenha123"
+}
+```
+
+```bash cURL
+curl -X POST "https://api-new.paineloffice.click/nexus/recreate/507f1f77bcf86cd799439011" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{
+    "pass": "novaSenha123"
+  }'
+```
+
+</CodeGroup>
+
+## Exemplo de Resposta
+
+```json
+{
+  "success": true,
+  "message": "Usuário Nexus recreate com sucesso",
+  "data": {
+    "id": "507f1f77bcf86cd799439011",
+    "username": "usuario_nexus_001",
+    "password": "novaSenha123",
+    "status": "active",
+    "updatedAt": "2025-10-27T14:30:00Z"
+  }
+}
+```
+
+## Códigos de Erro
+
+<ResponseField name="400" type="error">
+  Parâmetros inválidos ou ausentes
+</ResponseField>
+
+<ResponseField name="401" type="error">
+  Token de autenticação inválido ou ausente
+</ResponseField>
+
+<ResponseField name="404" type="error">
+  Usuário Nexus não encontrado
+</ResponseField>
+
+<ResponseField name="500" type="error">
+  Erro interno do servidor
+</ResponseField>

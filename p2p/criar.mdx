@@ -1,0 +1,165 @@
+---
+title: "Criar Usuário P2P"
+api: "POST https://api-new.paineloffice.click/p2p"
+description: "Cria um novo usuário P2P no sistema (isTrial: false)"
+auth: "none"
+---
+
+## Endpoint
+
+<CodeGroup>
+
+```bash Requisição
+POST /p2p
+Authorization: Bearer <token>
+```
+
+</CodeGroup>
+
+## Descrição
+
+Cria um novo usuário P2P no sistema. Esta é a mesma rota usada para criar testes P2P, mas com `isTrial: false` para usuários pagos.
+
+### Pacotes Disponíveis
+
+- **5da33ae32a9fdb2c33321cca** - PLANO COMPLETO SEM ADULTOS
+- **5da17892133a1d61888029aa** - PLANO COMPLETO
+- **5e5c14d813d2214122f081df** - PLANO COMPLETO SEM INTER
+- **5f8dd931978ef40abef4ab92** - PLANO COMPLETO SEM INTER
+- **62000f13b31e82f77f2cc24e** - PLANO CANAIS / SEM VODS
+- **627aba573e33db98a64aed77** - PLANO PRINCIPAIS JOGOS
+- **67b4b8650f5b7754163fb1f3** - Completo (Sem 24h)
+
+
+
+## Parâmetros
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token para autenticação
+</ParamField>
+
+<ParamField body="isTrial" type="boolean" required>
+  Se é um teste gratuito
+</ParamField>
+
+<ParamField body="month" type="number" required>
+  Duração em meses
+</ParamField>
+
+<ParamField body="notes" type="string">
+  Observações
+</ParamField>
+
+<ParamField body="packageId" type="string" required>
+  ID do pacote P2P está disponível na página principal do endpoint
+</ParamField>
+
+<ParamField body="passline" type="string" required>
+  Senha de linha
+</ParamField>
+
+<ParamField body="sale_value" type="number">
+  Valor da venda
+</ParamField>
+
+<ParamField body="typeUser" type="integer" required>
+  Tipo do usuário
+</ParamField>
+
+<ParamField body="userline" type="string" required>
+  Linha do usuário
+</ParamField>
+
+<ParamField body="whatsapp" type="number" >
+  WhatsApp do usuário (apenas números)
+</ParamField>
+
+## Exemplo de Requisição
+
+<CodeGroup>
+
+```json TryIt
+{
+  "isTrial": false,
+  "month": 0.5,
+  "notes": "teste",
+  "packageId": "",
+  "passline": "17733172",
+  "sale_value": 0,
+  "typeUser": 2,
+  "userline": "364395430",
+  "whatsapp": 5511111111111
+}
+```
+
+```bash cURL
+curl -X POST "https://api-new.paineloffice.click/p2p" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{
+    "isTrial": false,
+    "month": 0.5,
+    "notes": "teste",
+    "packageId": "5da17892133a1d61888029aa",
+    "passline": "17733172",
+    "sale_value": 0,
+    "typeUser": 2,
+    "userline": "364395430",
+    "whatsapp": 5511111111111
+  }'
+```
+
+</CodeGroup>
+
+## Resposta
+
+<ResponseField name="success" type="boolean">
+  Indica se a operação foi bem-sucedida
+</ResponseField>
+
+<ResponseField name="message" type="string">
+  Mensagem de confirmação
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="properties">
+    <ResponseField name="id" type="integer">
+      ID do usuário P2P criado
+    </ResponseField>
+    <ResponseField name="username" type="string">
+      Nome de usuário P2P
+    </ResponseField>
+    <ResponseField name="status" type="string">
+      Status do usuário
+    </ResponseField>
+    <ResponseField name="max_devices" type="integer">
+      Número máximo de dispositivos
+    </ResponseField>
+    <ResponseField name="expires_at" type="string">
+      Data de expiração
+    </ResponseField>
+    <ResponseField name="server_url" type="string">
+      URL do servidor P2P
+    </ResponseField>
+    <ResponseField name="streaming_key" type="string">
+      Chave de streaming
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## Exemplo de Resposta
+
+```json
+{
+  "message": "Usuário P2P criado com sucesso",
+  "data": {
+    "id": 2001,
+    "username": "usuario_p2p_001",
+    "status": "active",
+    "max_devices": 3,
+    "expires_at": "2024-02-15T10:30:00Z",
+    "server_url": "http://p2p.servidor.com:8080",
+    "streaming_key": "p2p_key_abc123def456"
+  }
+}
+```

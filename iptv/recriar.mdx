@@ -1,0 +1,133 @@
+---
+title: "Recriar Usuário IPTV"
+api: "POST https://api-new.paineloffice.click/iptv/recreate"
+description: "Recreate um usuário IPTV existente"
+auth: "none"
+---
+
+## Endpoint
+
+<CodeGroup>
+
+```bash Requisição
+POST /iptv/recreate
+Authorization: Bearer <token>
+Content-Type: application/json
+
+Body:
+{
+  "id": "<user_id>",
+  "pass": "<nova_senha>"
+}
+```
+
+</CodeGroup>
+
+## Descrição
+
+Recreate um usuário IPTV existente, redefinindo suas configurações e credenciais.
+
+## Parâmetros
+
+### Headers
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token para autenticação
+</ParamField>
+
+### Body Parameters
+
+<ParamField body="id" type="string" required>
+  ID do usuário IPTV a ser recreate
+</ParamField>
+
+<ParamField body="pass" type="string" required>
+  Nova senha do usuário IPTV
+</ParamField>
+
+## Resposta
+
+<ResponseField name="success" type="boolean">
+  Indica se a operação foi bem-sucedida
+</ResponseField>
+
+<ResponseField name="message" type="string">
+  Mensagem de confirmação
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="properties">
+    <ResponseField name="id" type="string">
+      ID do usuário IPTV recreate
+    </ResponseField>
+    <ResponseField name="username" type="string">
+      Nome de usuário IPTV
+    </ResponseField>
+    <ResponseField name="password" type="string">
+      Nova senha do usuário
+    </ResponseField>
+    <ResponseField name="status" type="string">
+      Status do usuário
+    </ResponseField>
+    <ResponseField name="updatedAt" type="string">
+      Data e hora do recreate
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## Exemplo de Requisição
+
+<CodeGroup>
+
+```json TryIt
+{
+  "id": "507f1f77bcf86cd799439011",
+  "pass": "novaSenha123"
+}
+```
+
+```bash cURL
+curl -X POST "https://api-new.paineloffice.click/iptv/recreate" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{
+    "id": "507f1f77bcf86cd799439011",
+    "pass": "novaSenha123"
+  }'
+```
+
+</CodeGroup>
+
+## Exemplo de Resposta
+
+```json
+{
+  "success": true,
+  "message": "Usuário IPTV recreate com sucesso",
+  "data": {
+    "id": "507f1f77bcf86cd799439011",
+    "username": "usuario_iptv_001",
+    "password": "novaSenha123",
+    "status": "active",
+    "updatedAt": "2025-10-27T14:30:00Z"
+  }
+}
+```
+
+## Códigos de Erro
+
+<ResponseField name="400" type="error">
+  Parâmetros inválidos ou ausentes
+</ResponseField>
+
+<ResponseField name="401" type="error">
+  Token de autenticação inválido ou ausente
+</ResponseField>
+
+<ResponseField name="404" type="error">
+  Usuário IPTV não encontrado
+</ResponseField>
+
+<ResponseField name="500" type="error">
+  Erro interno do servidor
+</ResponseField>

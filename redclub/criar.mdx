@@ -1,0 +1,161 @@
+---
+title: " Criar RedClub"
+api: "POST https://api-new.paineloffice.click/red-club"
+description: "Cria usuário RedClub"
+auth: "none"
+---
+
+## Endpoint
+
+<CodeGroup>
+
+```bash Requisição
+POST /red-club
+Authorization: Bearer <token>
+```
+
+</CodeGroup>
+
+## Descrição
+
+Cria um novo usuário RedClub no sistema.
+
+## Parâmetros
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token para autenticação
+</ParamField>
+
+<ParamField body="email" type="string" >
+  E-mail do usuário
+</ParamField>
+
+<ParamField body="enabled" type="boolean" required>
+  Se o usuário está habilitado
+</ParamField>
+
+<ParamField body="months" type="string" required>
+  Duração em meses
+</ParamField>
+
+<ParamField body="notes" type="string">
+  Observações
+</ParamField>
+
+<ParamField body="password" type="string" required>
+  Senha do usuário
+</ParamField>
+
+<ParamField body="sale_value" type="number">
+  Valor da venda
+</ParamField>
+
+<ParamField body="trial" type="boolean" required>
+  Para Criação do usuário a opção deve ser false
+</ParamField>
+
+<ParamField body="username" type="string" required>
+  Nome de usuário RedClub
+</ParamField>
+
+<ParamField body="whatsapp" type="number" >
+  WhatsApp do usuário (apenas números)
+</ParamField>
+
+## Exemplo de Requisição
+
+<CodeGroup>
+
+```json TryIt
+{
+  "email": "teste@gmail.com",
+  "enabled": true,
+  "months": "0.5",
+  "notes": "teste",
+  "password": "543564532",
+  "sale_value": 0,
+  "trial": false,
+  "username": "797om721012",
+  "whatsapp": 5511111111111
+}
+```
+
+```bash cURL
+curl -X POST "https://api-new.paineloffice.click/red-club" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{
+    "email": "teste@gmail.com",
+    "enabled": true,
+    "months": "0.5",
+    "notes": "teste",
+    "password": "543564532",
+    "sale_value": 0,
+    "trial": false,
+    "username": "797om721012",
+    "whatsapp": 5511111111111
+  }'
+```
+
+</CodeGroup>
+
+## Resposta
+
+<ResponseField name="success" type="boolean">
+  Indica se a operação foi bem-sucedida
+</ResponseField>
+
+<ResponseField name="message" type="string">
+  Mensagem de confirmação
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="properties">
+    <ResponseField name="id" type="integer">
+      ID do usuário RedClub criado
+    </ResponseField>
+    <ResponseField name="username" type="string">
+      Nome de usuário RedClub
+    </ResponseField>
+    <ResponseField name="email" type="string">
+      E-mail do usuário
+    </ResponseField>
+    <ResponseField name="phone" type="string">
+      Telefone do usuário
+    </ResponseField>
+    <ResponseField name="status" type="string">
+      Status do usuário
+    </ResponseField>
+    <ResponseField name="profile_type" type="string">
+      Tipo de perfil
+    </ResponseField>
+    <ResponseField name="expires_at" type="string">
+      Data de expiração
+    </ResponseField>
+    <ResponseField name="access_url" type="string">
+      URL de acesso ao portal
+    </ResponseField>
+    <ResponseField name="member_id" type="string">
+      ID de membro único
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## Exemplo de Resposta
+
+```json
+{
+  "message": "Usuário RedClub criado com sucesso",
+  "data": {
+    "id": 4001,
+    "username": "usuario_redclub_001",
+    "email": "usuario@redclub.com",
+    "phone": "+5511999999999",
+    "status": "active",
+    "profile_type": "premium",
+    "expires_at": "2024-02-15T10:30:00Z",
+    "access_url": "https://redclub.servidor.com/portal",
+    "member_id": "RC_4001_PREMIUM"
+  }
+}
+```
